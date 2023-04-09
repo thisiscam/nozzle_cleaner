@@ -21,12 +21,12 @@ class PurgeWipeNozzle:
     self.travel_speed = config.getfloat('travel_speed', default=100, above=0)
     self.wipe_speed = config.getfloat('wipe_speed', default=20, above=0)
 
+    self.gcode = self.printer.lookup_object('gcode')
+    self.gcode_move = self.printer.lookup_object('gcode_move')
+
     self.gcode.register_command("WIPE_NOZZLE",
                                 self.cmd_WIPE_NOZZLE,
                                 desc=self.cmd_WIPE_NOZZLE_help)
-
-    self.gcode = self.printer.lookup_object('gcode')
-    self.gcode_move = self.printer.lookup_object('gcode_move')
 
   cmd_WIPE_NOZZLE_help = "Wipe the nozzle at the X-gantry"
 
