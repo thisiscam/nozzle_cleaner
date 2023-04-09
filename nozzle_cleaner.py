@@ -3,6 +3,8 @@
 #
 #
 
+import time
+
 
 class PurgeWipeNozzle:
 
@@ -18,9 +20,8 @@ class PurgeWipeNozzle:
     self.wiper_loc_x = config.getfloat('wiper_loc_x')
     self.wiping_dist_x = config.getfloat('wiping_dist_x', above=0)
 
-    self.max_repeat = config.getint('max_repeat', default=3, minval=1)
     self.travel_speed = config.getfloat('travel_speed', default=100, above=0)
-    self.wipe_speed = config.getfloat('wipe_speed', default=20, above=0)
+    self.wipe_speed = config.getfloat('wipe_speed', default=50, above=0)
 
     self.gcode = self.printer.lookup_object('gcode')
     self.gcode_move = self.printer.lookup_object('gcode_move')
@@ -48,9 +49,6 @@ class PurgeWipeNozzle:
 
     # Move to center of the wiper
     toolhead.manual_move([self.wiper_loc_x], self.travel_speed)
-    extruder_heater = self.printer.lookup_object('extruder').get_heater()
-    if nozzle_standby_temperature is not None:
-      extruder_heater.alter_target(nozzle_standby_temperature)
 
     def do_wipe_motion():
       for direction in (-1, 1):
@@ -59,13 +57,16 @@ class PurgeWipeNozzle:
             self.wipe_speed)
 
     if nozzle_standby_temperature is not None:
+      extruder_heater = self.printer.lookup_object('extruder').get_heater()
+      extruder_heater.alter_target(nozzle_standby_temperature)
+
       while True:
         curtime = self.printer.get_reactor().monotonic()
         temperature, _ = extruder_heater.get_temp(curtime)
         if temperature <= nozzle_standby_temperature:
           break
-        do_wipe_motion()
         toolhead.wait_moves()
+        do_wipe_motion()
 
     for _ in range(num_wipes):
       do_wipe_motion()
