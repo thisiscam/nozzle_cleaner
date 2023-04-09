@@ -17,7 +17,7 @@ class PurgeWipeNozzle:
     self.purge_loc_x = config.getfloat('purge_loc_x', default=max_x)
     self.wiper_loc_x = config.getfloat('wiper_pos_x')
     self.wiping_dist_x = config.getfloat('wiping_dist_x', above=0)
-    self.max_repeat = config.getint('max_repeat', default=3, above=0)
+    self.max_repeat = config.getint('max_repeat', default=3, minval=1)
     self.travel_speed = config.getfloat('travel_speed', default=100, above=0)
     self.wipe_speed = config.getfloat('wipe_speed', default=20, above=0)
 
