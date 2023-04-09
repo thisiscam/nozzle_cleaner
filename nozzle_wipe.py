@@ -23,12 +23,12 @@ class PurgeWipeNozzle:
 
     self.gcode.register_command("WIPE_NOZZLE",
                                 self.cmd_WIPE_NOZZLE,
-                                desc=self.cmd_AUTO_OFFSET_Z_help)
+                                desc=self.cmd_WIPE_NOZZLE_help)
 
     self.gcode = self.printer.lookup_object('gcode')
     self.gcode_move = self.printer.lookup_object('gcode_move')
 
-  cmd_WIPE_NOZZLE = "Wipe the nozzle at the X-gantry"
+  cmd_WIPE_NOZZLE_help = "Wipe the nozzle at the X-gantry"
 
   def cmd_WIPE_NOZZLE(self, gcmd):
     # check if all axes are homed
