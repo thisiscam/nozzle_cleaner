@@ -1,5 +1,6 @@
 [update_manager nozzle_cleaner]
 type: git_repo
 path: ~/nozzle_cleaner
+primary_branch: main
 origin: https://github.com/thisiscam/nozzle_cleaner.git
 is_system_service: False
