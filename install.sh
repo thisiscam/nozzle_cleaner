@@ -72,12 +72,12 @@ restart_moonraker()
     echo "[OK]"
 }
 
-# Add updater for wipe_nozzle to moonraker.conf
+# Add updater for nozzle_cleaner to moonraker.conf
 add_updater()
 {
     echo -e -n "Adding update manager to moonraker.conf... "
 
-    update_section=$(grep -c '\[update_manager wipe_nozzle\]' ${MOONRAKER_CONFIG_DIR}/moonraker.conf || true)
+    update_section=$(grep -c '\[update_manager nozzle_cleaner\]' ${MOONRAKER_CONFIG_DIR}/moonraker.conf || true)
     if [ "${update_section}" -eq 0 ]; then
         echo -e "\n" >> ${MOONRAKER_CONFIG_DIR}/moonraker.conf
         while read -r line; do
@@ -87,7 +87,7 @@ add_updater()
         echo "[OK]"
         restart_moonraker
         else
-        echo -e "[update_manager wipe_nozzle] already exists in moonraker.conf [SKIPPED]"
+        echo -e "[update_manager nozzle_cleaner] already exists in moonraker.conf [SKIPPED]"
     fi
 }
 
@@ -118,7 +118,7 @@ uninstall()
         echo -n "Uninstalling... "
         rm -f "${KLIPPER_PATH}/klippy/extras/wipe_nozzle.py"
         echo "[OK]"
-        echo "You can now remove the [update_manager wipe_nozzle] section in your moonraker.conf and delete this directory. Also remove all wipe_nozzle configurations from your Klipper configuration."
+        echo "You can now remove the [update_manager nozzle_cleaner] section in your moonraker.conf and delete this directory. Also remove all nozzle_cleaner configurations from your Klipper configuration."
     else
         echo "wipe_nozzle.py not found in \"${KLIPPER_PATH}/klippy/extras/\". Is it installed?"
         echo "[FAILED]"
