@@ -21,7 +21,7 @@ class PurgeWipeNozzle:
     self.travel_speed = config.getfloat('travel_speed', default=100, above=0)
     self.wipe_speed = config.getfloat('wipe_speed', default=20, above=0)
 
-    self.gcode.register_command("AUTO_OFFSET_Z",
+    self.gcode.register_command("WIPE_NOZZLE",
                                 self.cmd_WIPE_NOZZLE,
                                 desc=self.cmd_AUTO_OFFSET_Z_help)
 
