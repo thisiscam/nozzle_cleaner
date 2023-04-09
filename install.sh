@@ -27,6 +27,9 @@ while getopts "k:c:uh" arg; do
     esac
 done
 
+# Find SRCDIR from the pathname of this script
+SRCDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 # Verify Klipper has been installed
 check_klipper()
 {
