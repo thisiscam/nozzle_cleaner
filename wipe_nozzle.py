@@ -3,20 +3,12 @@
 #
 #
 
-import time
 
-
-class PurgeWipeNozzle:
+class WipeNozzle:
 
   def __init__(self, config):
     self.printer = config.get_printer()
-    nozzle_diameter = config.getsection("extruder").getfloat("nozzle_diameter")
-    self.purge_line_dist = config.getfloat('purge_line_dist',
-                                           default=nozzle_diameter * 15 / 0.4,
-                                           above=0)
-    max_x = config.getsection('stepper_x').getfloat('position_max',
-                                                    note_valid=False)
-    self.purge_loc_x = config.getfloat('purge_loc_x', default=max_x)
+
     self.wiper_loc_x = config.getfloat('wiper_loc_x')
     self.wiping_dist_x = config.getfloat('wiping_dist_x', above=0)
 
@@ -45,7 +37,7 @@ class PurgeWipeNozzle:
     if 'x' not in kin_status['homed_axes']:
       raise gcmd.error("You must home X axis first")
 
-    gcmd.respond_info("PurgeWipeNozzle: start wiping nozzle ...")
+    gcmd.respond_info("NozzleWipe: start wiping ...")
 
     # Move to center of the wiper
     toolhead.manual_move([self.wiper_loc_x], self.travel_speed)
@@ -59,7 +51,8 @@ class PurgeWipeNozzle:
     if nozzle_standby_temperature is not None:
       extruder_heater = self.printer.lookup_object('extruder').get_heater()
       extruder_heater.alter_target(nozzle_standby_temperature)
-
+      gcmd.respond_info(
+          "NozzleWipe: wiping while waiting for temperature to drop ...")
       while True:
         curtime = self.printer.get_reactor().monotonic()
         temperature, _ = extruder_heater.get_temp(curtime)
@@ -72,8 +65,8 @@ class PurgeWipeNozzle:
       do_wipe_motion()
     toolhead.wait_moves()
 
-    gcmd.respond_info("PurgeWipeNozzle: done wiping!")
+    gcmd.respond_info("NozzleWipe: done!")
 
 
 def load_config(config):
-  return PurgeWipeNozzle(config)
+  return WipeNozzle(config)
