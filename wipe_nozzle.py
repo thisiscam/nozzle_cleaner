@@ -16,7 +16,6 @@ class WipeNozzle:
     self.wipe_speed = config.getfloat('wipe_speed', default=50, above=0)
 
     self.gcode = self.printer.lookup_object('gcode')
-    self.gcode_move = self.printer.lookup_object('gcode_move')
 
     self.gcode.register_command("WIPE_NOZZLE",
                                 self.cmd_WIPE_NOZZLE,

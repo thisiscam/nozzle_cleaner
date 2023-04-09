@@ -1,0 +1,46 @@
+# Overview
+
+This Python host module provides a simple solution for automatically wiping a 3D printer's nozzle. It continues wiping until the nozzle reaches a specified target temperature, avoiding the need for klipper macros.
+
+# Installation
+
+To install as a moonraker service, follow these steps:
+
+```bash
+./install
+```
+
+To uninstall:
+
+```
+bash
+./install -u
+```
+
+Next, update your printer.cfg file with the following configuration:
+
+```
+[wipe_nozzle]
+wiper_loc_x = 247.5 # center of the wiper/brush
+wiping_dist_x = 20 # horizontal wiping distance (around the width of the brush + 2mm)
+travel_speed = 100 # speed to move to the wiper location
+wipe_speed = 60 # wiping speed in mm/s
+```
+
+# How to Use
+
+After installation, the `WIPE_NOZZLE` command becomes available. The command accepts two parameters: `NUM_WIPES` and `NOZZLE_STANDBY_TEMPERATURE`.
+
+If `NOZZLE_STANDBY_TEMPERATURE` is provided, the command will wipe until the extruder heater's temperature drops to this value, followed by `NUM_WIPES` of additional wipes.
+If `NOZZLE_STANDBY_TEMPERATURE` is not provided, the command will perform `NUM_WIPES` of wipes without waiting for the temperature.
+
+# Limitations
+
+Currently, only fixed x-gantry mounted wipers (typically found on bed-slinger printers) are supported. However, extending support to other mount types should be relatively simple.
+
+# Acknowledgements
+
+This code is heavily inspired by other klipper extensions:
+
+- https://github.com/protoloft/klipper_z_calibration
+- https://github.com/julianschill/klipper-led_effect
