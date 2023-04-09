@@ -1,0 +1,5 @@
+[update_manager led_effect]
+type: git_repo
+path: ~/nozzle_cleaner
+origin: https://github.com/thisiscam/nozzle_cleaner.git
+is_system_service: False
