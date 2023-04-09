@@ -1,4 +1,4 @@
-[update_manager led_effect]
+[update_manager nozzle_cleaner]
 type: git_repo
 path: ~/nozzle_cleaner
 origin: https://github.com/thisiscam/nozzle_cleaner.git
