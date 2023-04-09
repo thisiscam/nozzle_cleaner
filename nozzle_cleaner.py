@@ -15,7 +15,7 @@ class PurgeWipeNozzle:
     max_x = config.getsection('stepper_x').getfloat('position_max',
                                                     note_valid=False)
     self.purge_loc_x = config.getfloat('purge_loc_x', default=max_x)
-    self.wiper_loc_x = config.getfloat('wiper_pos_x')
+    self.wiper_loc_x = config.getfloat('wiper_loc_x')
     self.wiping_dist_x = config.getfloat('wiping_dist_x', above=0)
 
     self.max_repeat = config.getint('max_repeat', default=3, minval=1)
@@ -52,7 +52,7 @@ class PurgeWipeNozzle:
     if nozzle_standby_temperature is not None:
       extruder_heater.alter_target(nozzle_standby_temperature)
 
-    def do_wipe_motion(self):
+    def do_wipe_motion():
       for direction in (-1, 1):
         toolhead.manual_move(
             [self.wiper_loc_x + direction * self.wiping_dist_x / 2],
@@ -64,11 +64,11 @@ class PurgeWipeNozzle:
         temperature, _ = extruder_heater.get_temp(curtime)
         if temperature <= nozzle_standby_temperature:
           break
-        do_wipe_motion(toolhead)
+        do_wipe_motion()
         toolhead.wait_moves()
 
     for _ in range(num_wipes):
-      do_wipe_motion(toolhead)
+      do_wipe_motion()
     toolhead.wait_moves()
 
     gcmd.respond_info("PurgeWipeNozzle: done wiping!")
