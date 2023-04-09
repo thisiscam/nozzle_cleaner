@@ -34,9 +34,15 @@ After installation, the `WIPE_NOZZLE` command becomes available. The command acc
 If `NOZZLE_STANDBY_TEMPERATURE` is provided, the command will wipe until the extruder heater's temperature drops to this value, followed by `NUM_WIPES` of additional wipes.
 If `NOZZLE_STANDBY_TEMPERATURE` is not provided, the command will perform `NUM_WIPES` of wipes without waiting for the temperature.
 
+
+Further, I have a simple purge macro that makes use of `WIPE_NOZZLE` in `purge_wipe.cfg`.
+Please feel free to adapt this to your use case!
+
 # Limitations
 
 Currently, only fixed x-gantry mounted wipers (typically found on bed-slinger printers) are supported. However, extending support to other mount types should be relatively simple.
+
+The script relies on waits for wiping moves to finish then checks the temperature --- this causes the printer to "pause" slightly in between wiping moves. I found this behavior to not be a problem for me. 
 
 # Acknowledgements
 
