@@ -45,8 +45,7 @@ class PurgeWipeNozzle:
     toolhead.manual_move([self.wiper_loc_x], self.travel_speed)
 
     # try to get the current nozzle temperature
-    temperature = self.printer.lookup_object('heater').lookup_object(
-        'extruder').temperature
+    temperature = self.printer.lookup_object('extruder').temperature
     gcmd.respond_info("PurgeWipeNozzle: nozzle temperature is {temp}".format(
         temp=temperature))
 
