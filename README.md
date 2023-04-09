@@ -2,6 +2,12 @@
 
 This Python host module provides a simple solution for automatically wiping a 3D printer's nozzle. It continues wiping until the nozzle reaches a specified target temperature, avoiding the need for klipper macros.
 
+# WARNING
+
+This repo contains Python code that can manipulate your printer!  
+If you are not sure what you are doing, do not use this!!!
+I am not responsible for any consequence caused by this script.
+
 # Installation
 
 To install as a moonraker service, follow these steps:
