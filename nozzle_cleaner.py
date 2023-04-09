@@ -17,6 +17,7 @@ class PurgeWipeNozzle:
     self.purge_loc_x = config.getfloat('purge_loc_x', default=max_x)
     self.wiper_loc_x = config.getfloat('wiper_pos_x')
     self.wiping_dist_x = config.getfloat('wiping_dist_x', above=0)
+
     self.max_repeat = config.getint('max_repeat', default=3, minval=1)
     self.travel_speed = config.getfloat('travel_speed', default=100, above=0)
     self.wipe_speed = config.getfloat('wipe_speed', default=20, above=0)
@@ -31,6 +32,10 @@ class PurgeWipeNozzle:
   cmd_WIPE_NOZZLE_help = "Wipe the nozzle at the X-gantry"
 
   def cmd_WIPE_NOZZLE(self, gcmd):
+    nozzle_standby_temperature = gcmd.get_float("NOZZLE_STANDBY_TEMPERATURE",
+                                                None)
+    num_wipes = gcmd.get_int("NUM_WIPES", 10)
+
     # check if all axes are homed
     toolhead = self.printer.lookup_object('toolhead')
     curtime = self.printer.get_reactor().monotonic()
@@ -43,13 +48,30 @@ class PurgeWipeNozzle:
 
     # Move to center of the wiper
     toolhead.manual_move([self.wiper_loc_x], self.travel_speed)
+    extruder_heater = self.printer.lookup_object('extruder').get_heater()
+    if nozzle_standby_temperature is not None:
+      extruder_heater.alter_target(nozzle_standby_temperature)
 
-    # try to get the current nozzle temperature
-    curtime = self.printer.get_reactor().monotonic()
-    temperature = self.printer.lookup_object('extruder').get_heater().get_temp(
-        curtime)
-    gcmd.respond_info("PurgeWipeNozzle: nozzle temperature is {temp}".format(
-        temp=temperature))
+    def do_wipe_motion(self):
+      for direction in (-1, 1):
+        toolhead.manual_move(
+            [self.wiper_loc_x + direction * self.wiping_dist_x / 2],
+            self.wipe_speed)
+
+    if nozzle_standby_temperature is not None:
+      while True:
+        curtime = self.printer.get_reactor().monotonic()
+        temperature, _ = extruder_heater.get_temp(curtime)
+        if temperature <= nozzle_standby_temperature:
+          break
+        do_wipe_motion(toolhead)
+        toolhead.wait_moves()
+
+    for _ in range(num_wipes):
+      do_wipe_motion(toolhead)
+    toolhead.wait_moves()
+
+    gcmd.respond_info("PurgeWipeNozzle: done wiping!")
 
 
 def load_config(config):
