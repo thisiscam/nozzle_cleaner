@@ -8,8 +8,8 @@ class WipeNozzle:
   def __init__(self, config):
     self.printer = config.get_printer()
 
-    self.wiping_dist_x = config.getfloat('wiping_dist_x', above=0)
-    self.wiping_dist_y = config.getfloat('wiping_dist_y', above=0)
+    self.wiping_dist_x = config.getfloat('wiping_dist_x', minval=0)
+    self.wiping_dist_y = config.getfloat('wiping_dist_y', minval=0)
     self.travel_speed = config.getfloat('travel_speed', default=100, above=0)
     self.z_travel_speed = config.getfloat('z_travel_speed', default=25, above=0)
     self.wipe_speed = config.getfloat('wipe_speed', default=50, above=0)
