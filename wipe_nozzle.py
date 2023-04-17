@@ -22,7 +22,7 @@ class WipeNozzle:
     num_wipes = gcmd.get_int("NUM_WIPES", 10)
     wipe_dist_x = gcmd.get_float("WIPE_DIST_X", minval=0, default=0)
     wipe_dist_y = gcmd.get_float("WIPE_DIST_Y", minval=0, default=0)
-    wipe_speed = gcmd.get_float("WIPE_SPEED", minval=50, default=0)
+    wipe_speed = gcmd.get_float("WIPE_SPEED", above=0, default=50)
 
     toolhead = self.printer.lookup_object('toolhead')
     curtime = self.printer.get_reactor().monotonic()
