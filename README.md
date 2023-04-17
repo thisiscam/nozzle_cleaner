@@ -23,27 +23,19 @@ bash
 ./install -u
 ```
 
-Next, update your printer.cfg file with the following configuration:
-
-```
-[wipe_nozzle]
-wiping_dist_x = 20 # horizontal wiping distance
-wiping_dist_y = 0 # vertical wiping distance
-travel_speed = 100 # xy-axes speed to move to the wiper location
-z_travel_speed = 25 # z-axis speed to move to the wiper location 
-wipe_speed = 60 # wiping speed in mm/s
-```
-
 # How to Use
 
 After installation, the `WIPE_NOZZLE` command becomes available. 
-The command accepts a few parameters: `NUM_WIPES`, `NOZZLE_STANDBY_TEMPERATURE` and `WIPER_LOC_{X,Y,Z}`. 
 
-The command first moves the toolhead to the requested location `(WIPER_LOC_X, WIPER_LOC_Y, WIPER_LOC_Z)`. 
+The command assumes that the toolhead is already positioned at the center of the wiper and is at a relatively high temperature (printing temperature should work) so that the filament residuals melt around the nozzle.
+
+The command accepts a few parameters: `NUM_WIPES`, `NOZZLE_STANDBY_TEMPERATURE`, `WIPE_DIST_X` and `WIPE_DIST_Y`. 
 
 If `NOZZLE_STANDBY_TEMPERATURE` is provided, the command will wipe until the extruder heater's temperature drops to this value, followed by `NUM_WIPES` of additional wipes.
 If `NOZZLE_STANDBY_TEMPERATURE` is not provided, the command will perform `NUM_WIPES` of wipes without waiting for the temperature.
 
+A single wipe motion basically travels from `(-WIPE_DIST_X/2, -WIPE_DIST_Y/2)` to  `(WIPE_DIST_X/2, WIPE_DIST_Y/2)`, 
+relative to the current position of the toolhead. 
 
 Further, I have a simple purge macro that makes use of `WIPE_NOZZLE` in `purge_wipe.cfg`.
 Please feel free to adapt this to your use case!
