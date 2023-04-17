@@ -35,7 +35,7 @@ class WipeNozzle:
 
     gcmd.respond_info("NozzleWipe: start wiping ...")
 
-    x_loc, y_loc, _ = toolhead.get_position()
+    x_loc, y_loc, *_ = toolhead.get_position()
 
     def do_wipe_motion():
       for direction in (-1, 1):
