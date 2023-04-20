@@ -1,10 +1,10 @@
 [Unit]
-Description=Dummy Service for nozzle_cleaner plugin
+Description=Dummy Service for loop_until_temperature plugin
 After=klipper.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/bin/bash -c 'exec -a nozzle_cleaner sleep 1'
+ExecStart=/bin/bash -c 'exec -a loop_until_temperature sleep 1'
 ExecStopPost=/usr/sbin/service klipper restart
 TimeoutStopSec=1s
 [Install]

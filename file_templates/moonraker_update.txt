@@ -1,6 +1,6 @@
-[update_manager nozzle_cleaner]
+[update_manager loop_until_temperature]
 type: git_repo
-path: ~/nozzle_cleaner
-primary_branch: main
+path: ~/loop_until_temperature
+primary_branch: loop_until_temperature
 origin: https://github.com/thisiscam/nozzle_cleaner.git
 is_system_service: False

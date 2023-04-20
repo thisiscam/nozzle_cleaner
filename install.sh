@@ -114,13 +114,13 @@ stop_klipper()
 
 uninstall()
 {
-    if [ -f "${KLIPPER_PATH}/klippy/extras/wipe_nozzle.py" ]; then
+    if [ -f "${KLIPPER_PATH}/klippy/extras/loop_until_temperature.py" ]; then
         echo -n "Uninstalling... "
-        rm -f "${KLIPPER_PATH}/klippy/extras/wipe_nozzle.py"
+        rm -f "${KLIPPER_PATH}/klippy/extras/loop_until_temperature.py"
         echo "[OK]"
-        echo "You can now remove the [update_manager nozzle_cleaner] section in your moonraker.conf and delete this directory. Also remove all nozzle_cleaner configurations from your Klipper configuration."
+        echo "You can now remove the [update_manager loop_until_temperature] section in your moonraker.conf and delete this directory. Also remove all nozzle_cleaner configurations from your Klipper configuration."
     else
-        echo "wipe_nozzle.py not found in \"${KLIPPER_PATH}/klippy/extras/\". Is it installed?"
+        echo "loop_until_temperature.py not found in \"${KLIPPER_PATH}/klippy/extras/\". Is it installed?"
         echo "[FAILED]"
     fi
 }
