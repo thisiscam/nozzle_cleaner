@@ -9,7 +9,7 @@ class LoopUntilTemperature:
     self.printer = config.get_printer()
 
     self.gcode = self.printer.lookup_object('gcode')
-    self.gcode.register_command("WIPE_NOZZLE",
+    self.gcode.register_command("LOOP_UNTIL_TEMPERATURE",
                                 self.cmd_LOOP_UNTIL_TEMPERATURE,
                                 desc=self.cmd_TEMPERATURE_LOOP_help)
     self.printer_heaters = self.printer.lookup_object('heaters')
