@@ -7,7 +7,6 @@ class LoopUntilTemperature:
 
   def __init__(self, config):
     self.printer = config.get_printer()
-
     self.gcode = self.printer.lookup_object('gcode')
     self.gcode.register_command("LOOP_UNTIL_TEMPERATURE",
                                 self.cmd_LOOP_UNTIL_TEMPERATURE,
