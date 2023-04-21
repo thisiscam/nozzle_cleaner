@@ -60,7 +60,7 @@ check_folders()
 link_extension()
 {
     echo -n "Linking extension to Klipper... "
-    ln -sf "${SRCDIR}/wipe_nozzle.py" "${KLIPPER_PATH}/klippy/extras/wipe_nozzle.py"
+    ln -sf "${SRCDIR}/loop_until_temperature.py" "${KLIPPER_PATH}/klippy/extras/loop_until_temperature.py"
     echo "[OK]"
 }
 
