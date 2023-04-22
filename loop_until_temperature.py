@@ -18,8 +18,13 @@ class LoopUntilTemperature:
   def cmd_LOOP_UNTIL_TEMPERATURE(self, gcmd):
     """Perform a sequence of commands while waiting for a temperature."""
     sensor_name = gcmd.get('SENSOR')
-    loop_commands = gcmd.get("LOOP_COMMAND").decode('string_escape').split('\n')
-    if sensor_name not in self.printer_heaters.available_sensors:
+    loop_commands = gcmd.get("LOOP_COMMAND")
+    try:
+      loop_command = loop_command.encode('latin-1','backslashreplace').decode('unicode_escape')
+    except AttributeError:
+      loop_command = loop_command.decode('string_escape')
+    loop_commands = loop_command.split('\n')
+    aif sensor_name not in self.printer_heaters.available_sensors:
       raise gcmd.error("Unknown sensor '%s'" % (sensor_name,))
     min_temp = gcmd.get_float('MINIMUM', float('-inf'))
     max_temp = gcmd.get_float('MAXIMUM', float('inf'), above=min_temp)
