@@ -18,7 +18,7 @@ class LoopUntilTemperature:
   def cmd_LOOP_UNTIL_TEMPERATURE(self, gcmd):
     """Perform a sequence of commands while waiting for a temperature."""
     sensor_name = gcmd.get('SENSOR')
-    loop_commands = gcmd.get_string("LOOP_COMMAND").split('\n')
+    loop_commands = gcmd.get("LOOP_COMMAND").decode('string_escape').split('\n')
     if sensor_name not in self.printer_heaters.available_sensors:
       raise gcmd.error("Unknown sensor '%s'" % (sensor_name,))
     min_temp = gcmd.get_float('MINIMUM', float('-inf'))
@@ -36,11 +36,11 @@ class LoopUntilTemperature:
     eventtime = reactor.monotonic()
     toolhead = self.printer.lookup_object('toolhead')
     i = 0
+    gcmd.respond_raw(str(loop_commands))
     while not self.printer.is_shutdown():
       temp, _ = sensor.get_temp(eventtime)
       if temp >= min_temp and temp <= max_temp:
         return
-      gcmd.respond_raw(self.printer_heaters._get_temp(eventtime))
       toolhead.wait_moves()
       self.gcode.run_script_from_command(loop_commands[i])
       i = (i + 1) % len(loop_commands)
