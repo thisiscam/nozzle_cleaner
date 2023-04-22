@@ -18,7 +18,7 @@ class LoopUntilTemperature:
   def cmd_LOOP_UNTIL_TEMPERATURE(self, gcmd):
     """Perform a sequence of commands while waiting for a temperature."""
     sensor_name = gcmd.get('SENSOR')
-    loop_commands = gcmd.get("LOOP_COMMAND")
+    loop_command = gcmd.get("LOOP_COMMAND")
     try:
       loop_command = loop_command.encode('latin-1','backslashreplace').decode('unicode_escape')
     except AttributeError:
