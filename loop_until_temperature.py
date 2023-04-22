@@ -24,7 +24,7 @@ class LoopUntilTemperature:
     except AttributeError:
       loop_command = loop_command.decode('string_escape')
     loop_commands = loop_command.split('\n')
-    aif sensor_name not in self.printer_heaters.available_sensors:
+    if sensor_name not in self.printer_heaters.available_sensors:
       raise gcmd.error("Unknown sensor '%s'" % (sensor_name,))
     min_temp = gcmd.get_float('MINIMUM', float('-inf'))
     max_temp = gcmd.get_float('MAXIMUM', float('inf'), above=min_temp)
